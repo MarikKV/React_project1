@@ -8,36 +8,38 @@ class App extends Component{
             <div className="App">
                 <Header/>
                 <table>
-                    < Table/>
+                    <Table/>
                 </table>
             </div>
         );
     }
 }
 
-function Header() {
-    return(
-        <div className="sticky">
-           <div className="logo">Tasktable</div>
-            <form>
-                <div className="for-input">
-                    <input id="name" type="text" name="name" placeholder='Name' />
-                </div>
+class Header extends Component{
+    render() {
+       return(
+            <div className="sticky">
+                <div className="logo">Tasktable</div>
+                    <form>
+                        <div className="for-input">
+                            <input id="name" type="text" name="name" placeholder='Name'/>
+                        </div>
 
-                <div className="for-input">
-                    <input id="date" type="date" name="date" placeholder='Date' />
-                </div>
+                        <div className="for-input">
+                            <input id="date" type="date" name="date" placeholder='Date'/>
+                        </div>
 
-                <div className="for-input">
-                    <input id="task" type="text" name="task" placeholder='Task' />
-                </div>
+                        <div className="for-input">
+                            <input id="task" type="text" name="task" placeholder='Task'/>
+                        </div>
 
-                <div className="for-save-btn">
-                    <div id="save" className="save-btn">Save</div>
-                </div>
-            </form>
-        </div>
-    );
+                        <div className="for-save-btn">
+                            <div id="save" className="save-btn">Save</div>
+                        </div>
+                    </form>
+            </div>
+       )
+    };
 }
 
 class Table extends Component{
@@ -48,7 +50,6 @@ class Table extends Component{
             isLoaded: false,
         }
     }
-
     componentDidMount(){
         fetch('https://jsonplaceholder.typicode.com/users')
             .then(res => res.json())
@@ -60,18 +61,23 @@ class Table extends Component{
             })
     }
     render() {
-        var {isLoaded, items} = this.state;
-
+        let {isLoaded, items} = this.state;
         return (
-            <div>
-                <tr>
-                    {items.map(item => (
+            <tbody>
+                {items.map(item => (
+                    <tr key={item.id}>
                         <td key={item.id}>
+                            {item.id}
+                        </td>
+                        <td key={item.name}>
                             {item.name}
                         </td>
-                    ))}
-                </tr>
-            </div>
+                        <td key={item.email}>
+                            {item.email}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
         );
     }
 }

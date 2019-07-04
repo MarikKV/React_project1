@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {Component} from 'react';
 //import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-        <Header />
-        < Table />
-    </div>
-  );
+class App extends Component{
+    render(){
+        return (
+            <div className="App">
+                <Header/>
+                <table>
+                    < Table/>
+                </table>
+            </div>
+        );
+    }
 }
 
 function Header() {
@@ -36,11 +40,39 @@ function Header() {
     );
 }
 
-function Table() {
-    return(
-            <div>
+class Table extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            items: [],
+            isLoaded: false,
+        }
+    }
 
+    componentDidMount(){
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoader : true,
+                    items: json,
+                })
+            })
+    }
+    render() {
+        var {isLoaded, items} = this.state;
+
+        return (
+            <div>
+                <tr>
+                    {items.map(item => (
+                        <td key={item.id}>
+                            {item.name}
+                        </td>
+                    ))}
+                </tr>
             </div>
         );
+    }
 }
 export default App;
